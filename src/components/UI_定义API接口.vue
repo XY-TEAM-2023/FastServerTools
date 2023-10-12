@@ -321,8 +321,11 @@
         </el-table-column>
       </el-table>
     </div>
-    <el-button type="info">清空</el-button>
-    <el-button type="primary" @click="onButtonGenerate">生成</el-button>
+
+    <div style="display: flex; width: 100%; margin-top: 10px">
+      <el-button type="info" style="width: 100%" @click="onButtonClear">清空</el-button>
+      <el-button type="primary" style="width: 100%" @click="onButtonGenerate">生成</el-button>
+    </div>
   </div>
 </template>
 
@@ -340,108 +343,193 @@ const dbTables = {
     mainKey: 'id',
   },
 }
-const groups = reactive(['测试', '用户', '后台'])
-// const apiData = reactive({
-//   /** 分组 */
-//   group: '',
-//   /** 请求名 */
-//   title: '',
-//   needLogin: false,
-//   /** 请求类型 */
-//   request_type: 'GET',
-//   /** 请求路由 */
-//   uri: '',
-//   /** 接口备注 */
-//   desc: '',
-//   /** RESTful参数 */
-//   RESTfuls: [
-//     {
-//       /** 字段名 */
-//       name: '',
-//       /** 数据类型，默认文本类型 */
-//       valueType: '',
-//       /** 备注 */
-//       desc: '',
-//       /** 最小长度||最小值 */
-//       minLength: '',
-//       /** 最大长度||最大值 */
-//       maxLength: '',
-//       /** 允许的值 */
-//       allowValues: '',
-//     },
-//   ],
-//   /** RESTful参数 */
-//   querys: [
-//     {
-//       /** 字段名 */
-//       name: '',
-//       /** 数据类型，默认文本类型 */
-//       valueType: '文本',
-//       /** 必填 */
-//       must: false,
-//       /** 可空 */
-//       empty: true,
-//       /** 最小长度||最小值 */
-//       minValue: '',
-//       /** 最大长度||最大值 */
-//       maxValue: '',
-//       /** 允许的值 */
-//       allowValues: '',
-//       /** 备注 */
-//       desc: '',
-//     },
-//   ],
-//   cookies: [
-//     {
-//       /** cookie名 */
-//       name: '',
-//       /** cookie作用描述 */
-//       desc: '',
-//       /** 是否必填 */
-//       must: true,
-//     },
-//   ],
-//   headers: [
-//     {
-//       /** header名 */
-//       name: '',
-//       /** header作用描述 */
-//       desc: '',
-//       /** 是否必填 */
-//       must: true,
-//     },
-//   ],
-//   /**
-//    * POST、PUT等提交的参数
-//    */
-//   body: [
-//     {
-//       /** 字段名 */
-//       name: '',
-//       /** 数据类型，默认文本类型 */
-//       valueType: '文本',
-//       /** 必填 */
-//       must: false,
-//       /** 可空 */
-//       empty: true,
-//       /** 最小长度||最小值 */
-//       minValue: '',
-//       /** 最大长度||最大值 */
-//       maxValue: '',
-//       /** 允许的值 */
-//       allowValues: '',
-//       /** 备注 */
-//       desc: '',
-//     },
-//   ],
-// })
 
-console.log(1)
-const temp = JSON.parse(
-  '{"group":"group","title":"title","needLogin":"true","request_type":"GET","uri":"/user","desc":"desc","RESTfuls":[{"name":"str","valueType":"","desc":"","minLength":"","maxLength":"","allowValues":""},{"name":"N","valueType":":<N>","desc":"a士大夫","minLength":"1","maxLength":"2","allowValues":"1|2"},{"name":"L","valueType":":<L>","desc":"b","minLength":"3","maxLength":"4","allowValues":"1|2"},{"name":"BL","valueType":":<SL>","desc":"1321","minLength":"5","maxLength":"6","allowValues":""},{"name":"LN","valueType":":<LN>","desc":"","minLength":"7","maxLength":"8","allowValues":""},{"name":"SLN","valueType":":<SLN>","desc":"8498489","minLength":"6666","maxLength":"44444","allowValues":""},{"name":"BLN","valueType":":<BLN>","desc":"21","minLength":"61651","maxLength":"151515151","allowValues":"12121"},{"name":"","valueType":"","desc":"","minLength":"","maxLength":"","allowValues":""}],"querys":[{"name":"id","valueType":"文本","must":true,"empty":true,"minValue":"1","maxValue":"10","allowValues":"","desc":"123123"},{"name":"num","valueType":"整数","must":false,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":"1"},{"name":"long","valueType":"长整数","must":true,"empty":true,"minValue":"22","maxValue":"333","allowValues":"","desc":"2"},{"name":"bool","valueType":"逻辑型","must":false,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":"3"},{"name":"obj","valueType":"JSON对象","must":true,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":"4"},{"name":"array","valueType":"JSON数组","must":true,"empty":true,"minValue":"1","maxValue":"10","allowValues":"","desc":"5"},{"name":"","valueType":"文本","must":false,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":""}],"cookies":[{"name":"coockie1","desc":"123123123","must":true},{"name":"cookie2","valueType":"","desc":"sdfdsfdsfs"},{"name":"","valueType":"","desc":""}],"headers":[{"name":"ha1","desc":"11111","must":true},{"name":"head3333","valueType":"","desc":"22222"},{"name":"","valueType":"","desc":""}],"body":[{"name":"b_s","valueType":"文本","must":true,"empty":true,"minValue":"1","maxValue":"5","allowValues":"1|2","desc":"123"},{"name":"b_f","valueType":"小数","must":false,"empty":true,"minValue":"3","maxValue":"56","allowValues":"","desc":"123"},{"name":"b_N","valueType":"整数","must":true,"empty":true,"minValue":"1","maxValue":"56","allowValues":"3|5","desc":"3"},{"name":"b_L","valueType":"长整数","must":false,"empty":true,"minValue":"1","maxValue":"23","allowValues":"","desc":"d"},{"name":"b_B","valueType":"逻辑型","must":true,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":"fd"},{"name":"b_O","valueType":"JSON对象","must":false,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":"bfs"},{"name":"b_A","valueType":"JSON数组","must":true,"empty":true,"minValue":"1","maxValue":"3","allowValues":"","desc":"aferf"},{"name":"","valueType":"文本","must":false,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":""}]}'
-)
-console.log(2, temp)
-const apiData = reactive(temp)
+let apiData = reactive({
+  /** 分组 */
+  group: '',
+  /** 请求名 */
+  title: '',
+  needLogin: false,
+  /** 请求类型 */
+  request_type: 'GET',
+  /** 请求路由 */
+  uri: '',
+  /** 接口备注 */
+  desc: '',
+  /** RESTful参数 */
+  RESTfuls: [
+    {
+      /** 字段名 */
+      name: '',
+      /** 数据类型，默认文本类型 */
+      valueType: '',
+      /** 备注 */
+      desc: '',
+      /** 最小长度||最小值 */
+      minLength: '',
+      /** 最大长度||最大值 */
+      maxLength: '',
+      /** 允许的值 */
+      allowValues: '',
+    },
+  ],
+  /** RESTful参数 */
+  querys: [
+    {
+      /** 字段名 */
+      name: '',
+      /** 数据类型，默认文本类型 */
+      valueType: '文本',
+      /** 必填 */
+      must: false,
+      /** 可空 */
+      empty: true,
+      /** 最小长度||最小值 */
+      minValue: '',
+      /** 最大长度||最大值 */
+      maxValue: '',
+      /** 允许的值 */
+      allowValues: '',
+      /** 备注 */
+      desc: '',
+    },
+  ],
+  cookies: [
+    {
+      /** cookie名 */
+      name: '',
+      /** cookie作用描述 */
+      desc: '',
+      /** 是否必填 */
+      must: true,
+    },
+  ],
+  headers: [
+    {
+      /** header名 */
+      name: '',
+      /** header作用描述 */
+      desc: '',
+      /** 是否必填 */
+      must: true,
+    },
+  ],
+  /**
+   * POST、PUT等提交的参数
+   */
+  body: [
+    {
+      /** 字段名 */
+      name: '',
+      /** 数据类型，默认文本类型 */
+      valueType: '文本',
+      /** 必填 */
+      must: false,
+      /** 可空 */
+      empty: true,
+      /** 最小长度||最小值 */
+      minValue: '',
+      /** 最大长度||最大值 */
+      maxValue: '',
+      /** 允许的值 */
+      allowValues: '',
+      /** 备注 */
+      desc: '',
+    },
+  ],
+})
+
+// console.log(1)
+// const temp = JSON.parse(
+//   '{"group":"group","title":"title","needLogin":"true","request_type":"GET","uri":"/user","desc":"desc","RESTfuls":[{"name":"str","valueType":"","desc":"","minLength":"","maxLength":"","allowValues":""},{"name":"N","valueType":":<N>","desc":"a士大夫","minLength":"1","maxLength":"2","allowValues":"1|2"},{"name":"L","valueType":":<L>","desc":"b","minLength":"3","maxLength":"4","allowValues":"1|2"},{"name":"BL","valueType":":<SL>","desc":"1321","minLength":"5","maxLength":"6","allowValues":""},{"name":"LN","valueType":":<LN>","desc":"","minLength":"7","maxLength":"8","allowValues":""},{"name":"SLN","valueType":":<SLN>","desc":"8498489","minLength":"6666","maxLength":"44444","allowValues":""},{"name":"BLN","valueType":":<BLN>","desc":"21","minLength":"61651","maxLength":"151515151","allowValues":"12121"},{"name":"","valueType":"","desc":"","minLength":"","maxLength":"","allowValues":""}],"querys":[{"name":"id","valueType":"文本","must":true,"empty":true,"minValue":"1","maxValue":"10","allowValues":"","desc":"123123"},{"name":"num","valueType":"整数","must":false,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":"1"},{"name":"long","valueType":"长整数","must":true,"empty":true,"minValue":"22","maxValue":"333","allowValues":"","desc":"2"},{"name":"bool","valueType":"逻辑型","must":false,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":"3"},{"name":"obj","valueType":"JSON对象","must":true,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":"4"},{"name":"array","valueType":"JSON数组","must":true,"empty":true,"minValue":"1","maxValue":"10","allowValues":"","desc":"5"},{"name":"","valueType":"文本","must":false,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":""}],"cookies":[{"name":"coockie1","desc":"123123123","must":true},{"name":"cookie2","valueType":"","desc":"sdfdsfdsfs"},{"name":"","valueType":"","desc":""}],"headers":[{"name":"ha1","desc":"11111","must":true},{"name":"head3333","valueType":"","desc":"22222"},{"name":"","valueType":"","desc":""}],"body":[{"name":"b_s","valueType":"文本","must":true,"empty":true,"minValue":"1","maxValue":"5","allowValues":"1|2","desc":"123"},{"name":"b_f","valueType":"小数","must":false,"empty":true,"minValue":"3","maxValue":"56","allowValues":"","desc":"123"},{"name":"b_N","valueType":"整数","must":true,"empty":true,"minValue":"1","maxValue":"56","allowValues":"3|5","desc":"3"},{"name":"b_L","valueType":"长整数","must":false,"empty":true,"minValue":"1","maxValue":"23","allowValues":"","desc":"d"},{"name":"b_B","valueType":"逻辑型","must":true,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":"fd"},{"name":"b_O","valueType":"JSON对象","must":false,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":"bfs"},{"name":"b_A","valueType":"JSON数组","must":true,"empty":true,"minValue":"1","maxValue":"3","allowValues":"","desc":"aferf"},{"name":"","valueType":"文本","must":false,"empty":true,"minValue":"","maxValue":"","allowValues":"","desc":""}]}'
+// )
+// console.log(2, temp)
+// let apiData = reactive(temp)
+
+const onButtonClear = () => {
+  apiData.group = ''
+  apiData.title = ''
+  apiData.needLogin = false
+  apiData.request_type = 'GET'
+  apiData.uri = ''
+  apiData.desc = ''
+  apiData.RESTfuls = [
+    {
+      /** 字段名 */
+      name: '',
+      /** 数据类型，默认文本类型 */
+      valueType: '',
+      /** 备注 */
+      desc: '',
+      /** 最小长度||最小值 */
+      minLength: '',
+      /** 最大长度||最大值 */
+      maxLength: '',
+      /** 允许的值 */
+      allowValues: '',
+    },
+  ]
+  apiData.querys = [
+    {
+      /** 字段名 */
+      name: '',
+      /** 数据类型，默认文本类型 */
+      valueType: '文本',
+      /** 必填 */
+      must: false,
+      /** 可空 */
+      empty: true,
+      /** 最小长度||最小值 */
+      minValue: '',
+      /** 最大长度||最大值 */
+      maxValue: '',
+      /** 允许的值 */
+      allowValues: '',
+      /** 备注 */
+      desc: '',
+    },
+  ]
+  apiData.cookies = [
+    {
+      /** cookie名 */
+      name: '',
+      /** cookie作用描述 */
+      desc: '',
+      /** 是否必填 */
+      must: true,
+    },
+  ]
+  apiData.headers = [
+    {
+      /** header名 */
+      name: '',
+      /** header作用描述 */
+      desc: '',
+      /** 是否必填 */
+      must: true,
+    },
+  ]
+  apiData.body = [
+    {
+      /** 字段名 */
+      name: '',
+      /** 数据类型，默认文本类型 */
+      valueType: '文本',
+      /** 必填 */
+      must: false,
+      /** 可空 */
+      empty: true,
+      /** 最小长度||最小值 */
+      minValue: '',
+      /** 最大长度||最大值 */
+      maxValue: '',
+      /** 允许的值 */
+      allowValues: '',
+      /** 备注 */
+      desc: '',
+    },
+  ]
+}
 
 let volCode_router = ''
 let volCode_function = ''
@@ -884,6 +972,7 @@ const onBodyParamValueChange = (index, row) => {
   width: 100%;
   height: auto;
   margin: 10px 10px 10px 10px;
+  overflow: auto;
 
   // 基础信息
   .baseInfo {
