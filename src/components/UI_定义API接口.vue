@@ -800,7 +800,7 @@ const onButtonGenerate = () => {
     ${queryParams.length > 0 ? '// Query参数 --\r\n' + queryParams.join('') : ''}
     ${cookies.length > 0 ? '// Cookies --\r\n' + cookies.join('') : ''}
     ${headers.length > 0 ? '// Headers --\r\n' + headers.join('') : ''}
-    ${bodyParams.length > 0 ? '// body参数 --' + bodyParams.join('') : ''}
+    ${bodyParams.length > 0 ? '// body参数 --\r\n' + bodyParams.join('') : ''}
     // 业务逻辑(建议错误码从101开始) -- 
     变量 db_status <类型 = 整数 注释 = "数据库执行结果">
     变量 db_error <类型 = 文本型 注释 = "数据库命令执行错误时返回的错误文本">
