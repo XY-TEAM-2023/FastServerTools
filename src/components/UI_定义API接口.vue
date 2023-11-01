@@ -636,7 +636,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取URL参数_长整数 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '逻辑型') {
@@ -644,7 +644,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取URL参数_逻辑值 ("${item.name}", ${allowEmpty}, 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === 'JSON对象') {
@@ -652,7 +652,7 @@ const onButtonGenerate = () => {
         请求.取URL参数_JSON对象 ("${item.name}", ${allowEmpty}, 参数检查结果, ${item.name})
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === 'JSON数组') {
@@ -660,7 +660,7 @@ const onButtonGenerate = () => {
         请求.取URL参数_JSON数组 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, 参数检查结果, ${item.name})
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     }
@@ -724,7 +724,7 @@ const onButtonGenerate = () => {
       ${item.name} = 请求.取参数_文本 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '小数') {
@@ -732,7 +732,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取参数_小数 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '整数') {
@@ -740,7 +740,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取参数_整数 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '长整数') {
@@ -748,7 +748,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取参数_长整数 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '逻辑型') {
@@ -756,7 +756,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取参数_逻辑值 ("${item.name}", ${allowEmpty}, 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === 'JSON对象') {
@@ -764,7 +764,7 @@ const onButtonGenerate = () => {
         请求.取参数_JSON对象 ("${item.name}", ${allowEmpty}, 参数检查结果, ${item.name})
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === 'JSON数组') {
@@ -772,7 +772,7 @@ const onButtonGenerate = () => {
         请求.取参数_JSON数组 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, 参数检查结果, ${item.name})
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     }
