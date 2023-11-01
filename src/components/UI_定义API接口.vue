@@ -322,6 +322,28 @@
       </el-table>
     </div>
 
+    <!-- 参数检查失败 -->
+    <div class="paddingTop">
+      <el-table :data="paramCheckErrorTemplate">
+        <el-table-column label="参数检查失败时，返回自定义返回内容，$param 代表参数名">
+          <template #default="{ row }">
+            <el-input v-model="row.txt" class="paddingTop" placeholder="$param 代表参数名" />
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
+    <!-- 自定义代码段 -->
+    <div class="paddingTop">
+      <el-table :data="customCode">
+        <el-table-column label='自定义代码段。需要删掉<火山程序 类型 = "通常" 版本 = 1 />'>
+          <template #default="{ row }">
+            <el-input v-model="row.txt" class="paddingTop" type="textarea" :rows="10" placeholder="" />
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
     <div style="display: flex; width: 100%; margin-top: 10px">
       <el-button type="info" style="width: 100%" @click="onButtonClear">清空</el-button>
       <el-button type="primary" style="width: 100%" @click="onButtonGenerate">生成</el-button>
@@ -330,7 +352,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 /** 数据库表列表 */
 const dbTables = {
@@ -342,6 +364,18 @@ const dbTables = {
     /** 主键名 */
     mainKey: 'id',
   },
+}
+
+const paramCheckErrorTemplate = reactive([{ txt: 'parameter $param is incorrect' }])
+/** 获取检查参数错误提示文本 */
+const getParamCheckErrorStr = function (param) {
+  return paramCheckErrorTemplate[0].txt.replace(/\$param/g, param)
+}
+
+/** 自定义代码端 */
+const customCode = reactive([{ txt: '' }])
+const getCustomCode = function () {
+  return customCode[0].txt
 }
 
 let apiData = reactive({
@@ -541,7 +575,7 @@ const onButtonGenerate = () => {
 
   apiData.RESTfuls.forEach(function (item) {
     if (item.name && item.name !== '') {
-      uri += `/${item.name}${item.valueType}`
+      uri += `/:${item.name}${item.valueType}`
     }
   })
 
@@ -558,7 +592,7 @@ const onButtonGenerate = () => {
     ${item.name} = 请求.取RESTFul参数 (${item.name}, ${minLen}, ${maxLen}, "${item.allowValues}", 参数检查结果)
     如果 (参数检查结果 != E_参数检查结果.成功)
     {
-        返回(响应.拒绝访问(${++paramErrorIndex}, ))
+        返回(响应.拒绝访问(${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
     }
 `)
     }
@@ -578,7 +612,7 @@ const onButtonGenerate = () => {
       ${item.name} = 请求.取URL参数_文本 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '小数') {
@@ -586,7 +620,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取URL参数_小数 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '整数') {
@@ -594,7 +628,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取URL参数_整数 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 (${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '长整数') {
@@ -602,7 +636,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取URL参数_长整数 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '逻辑型') {
@@ -610,7 +644,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取URL参数_逻辑值 ("${item.name}", ${allowEmpty}, 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === 'JSON对象') {
@@ -618,7 +652,7 @@ const onButtonGenerate = () => {
         请求.取URL参数_JSON对象 ("${item.name}", ${allowEmpty}, 参数检查结果, ${item.name})
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === 'JSON数组') {
@@ -626,7 +660,7 @@ const onButtonGenerate = () => {
         请求.取URL参数_JSON数组 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, 参数检查结果, ${item.name})
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     }
@@ -690,7 +724,7 @@ const onButtonGenerate = () => {
       ${item.name} = 请求.取参数_文本 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '小数') {
@@ -698,7 +732,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取参数_小数 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '整数') {
@@ -706,7 +740,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取参数_整数 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '长整数') {
@@ -714,7 +748,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取参数_长整数 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, "${item.allowValues}", 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === '逻辑型') {
@@ -722,7 +756,7 @@ const onButtonGenerate = () => {
         ${item.name} = 请求.取参数_逻辑值 ("${item.name}", ${allowEmpty}, 参数检查结果)
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === 'JSON对象') {
@@ -730,7 +764,7 @@ const onButtonGenerate = () => {
         请求.取参数_JSON对象 ("${item.name}", ${allowEmpty}, 参数检查结果, ${item.name})
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     } else if (item.valueType === 'JSON数组') {
@@ -738,7 +772,7 @@ const onButtonGenerate = () => {
         请求.取参数_JSON数组 ("${item.name}", ${allowEmpty}, ${item.minValue}, ${item.maxValue}, 参数检查结果, ${item.name})
         如果 (参数检查结果 != E_参数检查结果.成功)
         {
-            返回 (响应.参数错误 (${++paramErrorIndex}, ))
+            返回 (响应.参数错误 ((${++paramErrorIndex}, ${getParamCheckErrorStr(item.name)}))
         }
         `)
     }
@@ -750,7 +784,7 @@ const onButtonGenerate = () => {
 
 方法 初始化 <公开 静态 注释 = "一个功能模块的初始化, 在启动类中调用 静态类.初始化() 进行注册API接口">
 {
-    注册API接口 (E_请求类型.${apiData.request_type},  "${uri}", ${needLogin}, "${apiData.group}_${apiData.title}", "${apiData.group}", "${apiData.title}", "${apiData.desc}")
+    FS_注册API接口 (E_请求类型.${apiData.request_type},  "${uri}", ${needLogin}, ${apiData.group}_${apiData.title}, "${apiData.group}", "${apiData.title}", "${apiData.desc}")
 }
 
 
@@ -762,24 +796,21 @@ const onButtonGenerate = () => {
 参数 全局缓存 <类型 = FastServer_全局缓存类Ex>
 {
     变量 参数检查结果 <类型 = E_参数检查结果 值 = E_参数检查结果.成功>
-    ${RESTfulParams.length > 0 ? '// RESTful参数 --' : ''}
-${RESTfulParams.join('')}
-    ${queryParams.length > 0 ? '// Query参数 --' : ''}
-${queryParams.join('')}
-    ${cookies.length > 0 ? '// Cookies --' : ''}
-${cookies.join('')}
-    ${headers.length > 0 ? '// Headers --' : ''}
-${headers.join('')}
-    ${bodyParams.length > 0 ? '// body参数 --' : ''}
-${bodyParams.join('')}
-    // 业务逻辑(建议错误码从101开始) --
+    ${RESTfulParams.length > 0 ? '// RESTful参数 --\r\n' + RESTfulParams.join('') : ''}
+    ${queryParams.length > 0 ? '// Query参数 --\r\n' + queryParams.join('') : ''}
+    ${cookies.length > 0 ? '// Cookies --\r\n' + cookies.join('') : ''}
+    ${headers.length > 0 ? '// Headers --\r\n' + headers.join('') : ''}
+    ${bodyParams.length > 0 ? '// body参数 --' + bodyParams.join('') : ''}
+    // 业务逻辑(建议错误码从101开始) -- 
     变量 db_status <类型 = 整数 注释 = "数据库执行结果">
     变量 db_error <类型 = 文本型 注释 = "数据库命令执行错误时返回的错误文本">
+
+${getCustomCode()}
 
     返回 (响应.发送 (E_HTTP状态码.成功, , ))
 }`
 
-  // console.log(JSON.stringify(apiData))
+  console.log(volCode_router)
   copyToClipboard(volCode_router)
 }
 
