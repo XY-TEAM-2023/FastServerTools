@@ -366,7 +366,7 @@ const dbTables = {
   },
 }
 
-const paramCheckErrorTemplate = reactive([{ txt: 'parameter $param is incorrect' }])
+const paramCheckErrorTemplate = reactive([{ txt: '"parameter $param is incorrect"' }])
 /** 获取检查参数错误提示文本 */
 const getParamCheckErrorStr = function (param) {
   return paramCheckErrorTemplate[0].txt.replace(/\$param/g, param)
